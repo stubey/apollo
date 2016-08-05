@@ -1,5 +1,5 @@
 // Apollo provides `net/context`-aware middleware chaining
-package apollo
+package alec
 
 import (
 	"io/ioutil"
