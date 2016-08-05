@@ -22,20 +22,20 @@ func (h HandlerFunc) ServeHTTP(ctx context.Context, w http.ResponseWriter, r *ht
 	h(ctx, w, r)
 }
 
-// addsContext is an adapter that wraps a Handler and implements the http.Handler interface.
+// AddsContext is an adapter that wraps a Handler and implements the http.Handler interface.
 // The resulting object is used as a bridge to integrate existing `net/http` functions with
 // a context-aware chain or handler.
 // Internally, it is used as an onramp to the chain in Then(), and as an adapter for
 // injecting non-context-aware handlers with Wrap()
-type addsContext struct {
-	ctx     context.Context
-	handler Handler
+type AddsContext struct {
+	Ctx     context.Context
+	Handler Handler
 }
 
 // ServeHTTP calls the stored handler with the stored context, passing through the received
 // HTTP Response and Request
-func (a *addsContext) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	a.handler.ServeHTTP(a.ctx, w, r)
+func (a *AddsContext) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	a.Handler.ServeHTTP(a.Ctx, w, r)
 }
 
 // stripsContext is an adapter that wraps a http.Handler and implements the Handler interface.
@@ -58,9 +58,9 @@ func (s *stripsContext) ServeHTTP(ctx context.Context, w http.ResponseWriter, r 
 func Wrap(h func(http.Handler) http.Handler) Constructor {
 	return func(next Handler) Handler {
 		return HandlerFunc(func(ctx context.Context, w http.ResponseWriter, r *http.Request) {
-			stubHandler := &addsContext{
-				ctx:     ctx,
-				handler: next,
+			stubHandler := &AddsContext{
+				Ctx:     ctx,
+				Handler: next,
 			}
 			h(stubHandler).ServeHTTP(w, r)
 		})

@@ -51,7 +51,7 @@ func New(constructors ...Constructor) Chain {
 // For proper middleware, this should cause no problems.
 //
 // Then() treats nil as http.DefaultServeMux.
-func (c Chain) Then(h Handler) http.Handler {
+func (c Chain) Then(h Handler) *AddsContext {
 	var final Handler
 	if h != nil {
 		final = h
@@ -65,9 +65,9 @@ func (c Chain) Then(h Handler) http.Handler {
 		final = c.constructors[i](final)
 	}
 
-	adapter := addsContext{
-		ctx:     c.context,
-		handler: final,
+	adapter := AddsContext{
+		Ctx:     c.context,
+		Handler: final,
 	}
 
 	return &adapter
@@ -81,7 +81,7 @@ func (c Chain) Then(h Handler) http.Handler {
 //     c.ThenFunc(fn)
 //
 // ThenFunc provides all the guarantees of Then.
-func (c Chain) ThenFunc(fn HandlerFunc) http.Handler {
+func (c Chain) ThenFunc(fn HandlerFunc) *AddsContext {
 	if fn == nil {
 		return c.Then(nil)
 	}
