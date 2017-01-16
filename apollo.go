@@ -2,9 +2,8 @@
 package alec
 
 import (
+	"context"
 	"net/http"
-
-	"golang.org/x/net/context"
 )
 
 // Handler is a context-aware interface analagous to the `net/http` http.Handler interface

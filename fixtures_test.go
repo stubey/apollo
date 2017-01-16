@@ -2,10 +2,9 @@
 package alec
 
 import (
+	"context"
 	"net/http"
 	"strconv"
-
-	"golang.org/x/net/context"
 )
 
 func handlerZero(w http.ResponseWriter, r *http.Request) {

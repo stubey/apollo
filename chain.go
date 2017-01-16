@@ -2,9 +2,8 @@
 package alec
 
 import (
+	"context"
 	"net/http"
-
-	"golang.org/x/net/context"
 )
 
 // A constructor for a piece of context-aware middleware.
