@@ -1,4 +1,4 @@
-Apollo
+Alec - Apollo fork
 ======
 [![GoDoc](https://godoc.org/github.com/cyclopsci/apollo?status.svg)](https://godoc.org/github.com/cyclopsci/apollo)
 
